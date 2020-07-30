@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BarcodeImageView">
+        <attr name="barcodeValue" format="string" />
+        <attr name="barcodeType" format="enum">
+            <enum name="code128" value="0" />
+            <enum name="qr" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>
