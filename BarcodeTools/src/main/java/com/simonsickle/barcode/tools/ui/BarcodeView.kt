@@ -4,11 +4,13 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import com.simonsickle.barcode.tools.R
 import com.simonsickle.barcode.tools.support.BarcodeBitmapGenerator
 import com.simonsickle.barcode.tools.support.BarcodeConfig
 import com.simonsickle.barcode.tools.support.BarcodeType
+import kotlin.math.min
 
 class BarcodeImageView : View {
     constructor(context: Context) : super(context, null)
@@ -31,6 +33,14 @@ class BarcodeImageView : View {
         }
 
         a.recycle()
+    }
+
+    private val minSize by lazy {
+        TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            64f,
+            resources.displayMetrics
+        ).toInt()
     }
 
     private var safeWidth = 0f
@@ -65,6 +75,24 @@ class BarcodeImageView : View {
                 barcodeConfig.rawString = value
             }
         }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val idealWidth = minSize + paddingStart + paddingEnd
+        val width = when (MeasureSpec.getMode(widthMeasureSpec)) {
+            MeasureSpec.EXACTLY -> MeasureSpec.getSize(widthMeasureSpec)
+            MeasureSpec.AT_MOST -> min(MeasureSpec.getSize(widthMeasureSpec), idealWidth)
+            else -> idealWidth
+        }
+
+        val idealHeight = minSize + paddingStart + paddingEnd
+        val height = when (MeasureSpec.getMode(heightMeasureSpec)) {
+            MeasureSpec.EXACTLY -> MeasureSpec.getSize(heightMeasureSpec)
+            MeasureSpec.AT_MOST -> min(MeasureSpec.getSize(heightMeasureSpec), idealHeight)
+            else -> idealHeight
+        }
+
+        setMeasuredDimension(width, height)
+    }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)

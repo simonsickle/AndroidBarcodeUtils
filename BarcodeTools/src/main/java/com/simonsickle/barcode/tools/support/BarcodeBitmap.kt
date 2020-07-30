@@ -13,8 +13,8 @@ object BarcodeBitmapGenerator {
         val bitMatrix = MultiFormatWriter().encode(
             config.rawString,
             getBarcodeFormat(barcodeType = config.type),
-            (config.width - (2 * config.padding.width)),
-            (config.height - (2 * config.padding.height))
+            (config.width ),
+            (config.height )
         )
 
         // Go through the matrix to create a bitmap
@@ -26,8 +26,8 @@ object BarcodeBitmapGenerator {
                     // paint the canvas itself to white.
                     if (bitMatrix[x, y]) {
                         setPixel(
-                            (x + config.padding.width),
-                            (y + config.padding.height),
+                            (x + 0),
+                            (y + 0),
                             Color.BLACK
                         )
                     }
@@ -36,7 +36,10 @@ object BarcodeBitmapGenerator {
         }
     }
 
-    fun paddingForType(displayMetrics: DisplayMetrics, @BarcodeType type: Int): BarcodePadding {
+    fun paddingForType(
+        displayMetrics: DisplayMetrics,
+        @BarcodeType type: Int
+    ): BarcodeConfig.Padding {
         val widthInDip = when (type) {
             BarcodeType.CODE_128 -> 2F
             else -> 1F
@@ -47,7 +50,7 @@ object BarcodeBitmapGenerator {
             else -> 1F
         }
 
-        return BarcodePadding(
+        return BarcodeConfig.Padding(
             width = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 widthInDip,
@@ -63,8 +66,19 @@ object BarcodeBitmapGenerator {
 
     private fun getBarcodeFormat(@BarcodeType barcodeType: Int): BarcodeFormat {
         return when (barcodeType) {
+            BarcodeType.EAN_8 -> BarcodeFormat.EAN_8
+            BarcodeType.UPC_E -> BarcodeFormat.UPC_E
+            BarcodeType.EAN_13 -> BarcodeFormat.EAN_13
+            BarcodeType.UPC_A -> BarcodeFormat.UPC_A
+            BarcodeType.QR_CODE -> BarcodeFormat.QR_CODE
+            BarcodeType.CODE_39 -> BarcodeFormat.CODE_39
+            BarcodeType.CODE_93 -> BarcodeFormat.CODE_93
             BarcodeType.CODE_128 -> BarcodeFormat.CODE_128
-            BarcodeType.QR -> BarcodeFormat.QR_CODE
+            BarcodeType.ITF -> BarcodeFormat.ITF
+            BarcodeType.PDF_417 -> BarcodeFormat.PDF_417
+            BarcodeType.CODABAR -> BarcodeFormat.CODABAR
+            BarcodeType.DATA_MATRIX -> BarcodeFormat.DATA_MATRIX
+            BarcodeType.AZTEC -> BarcodeFormat.AZTEC
             else -> throw IllegalArgumentException("Barcode type is not implemented yet")
         }
     }

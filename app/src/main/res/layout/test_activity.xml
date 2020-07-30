@@ -7,8 +7,9 @@
     android:orientation="vertical">
 
     <com.simonsickle.barcode.tools.ui.BarcodeImageView
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        app:barcodeType="code128"
-        app:barcodeValue="1232323" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:barcodeType="qr_code"
+        app:barcodeValue="https://github.com" />
 </LinearLayout>

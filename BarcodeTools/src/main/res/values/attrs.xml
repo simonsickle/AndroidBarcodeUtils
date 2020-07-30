@@ -4,8 +4,19 @@
     <declare-styleable name="BarcodeImageView">
         <attr name="barcodeValue" format="string" />
         <attr name="barcodeType" format="enum">
-            <enum name="code128" value="0" />
-            <enum name="qr" value="1" />
+            <enum name="ean_8" value="0" />
+            <enum name="upc_e" value="1" />
+            <enum name="ean_13" value="2" />
+            <enum name="upc_a" value="3" />
+            <enum name="qr_code" value="4" />
+            <enum name="code_39" value="5" />
+            <enum name="code_93" value="6" />
+            <enum name="code_128" value="7" />
+            <enum name="itf" value="8" />
+            <enum name="pdf_417" value="9" />
+            <enum name="codabar" value="10" />
+            <enum name="data_matrix" value="11" />
+            <enum name="aztec" value="12" />
         </attr>
     </declare-styleable>
 </resources>
